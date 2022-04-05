@@ -21,8 +21,6 @@ use scale_info::TypeInfo;
 use application_crypto::AppKey;
 #[cfg(feature = "std")]
 use sp_keystore::{CryptoStore, Error as KeystoreError, SyncCryptoStorePtr};
-#[cfg(feature = "std")]
-use sp_std::convert::TryInto;
 use sp_std::prelude::Vec;
 
 use primitives::RuntimeDebug;
@@ -166,7 +164,7 @@ impl<Payload: EncodeAs<RealPayload>, RealPayload: Encode> Signed<Payload, RealPa
 				payload: claimed,
 				validator_index: self.0.validator_index,
 				signature: self.0.signature,
-				real_payload: std::marker::PhantomData,
+				real_payload: sp_std::marker::PhantomData,
 			}))
 		} else {
 			Err((self, claimed))
