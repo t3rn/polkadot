@@ -12654,6 +12654,25 @@ dependencies = [
 ]
 
 [[package]]
+name = "xbi-executor"
+version = "0.9.18"
+dependencies = [
+ "frame-benchmarking",
+ "frame-support",
+ "frame-system",
+ "impl-trait-for-tuples",
+ "log",
+ "parity-scale-codec",
+ "scale-info",
+ "sp-arithmetic",
+ "sp-core",
+ "sp-io",
+ "sp-runtime",
+ "sp-std",
+ "xcm",
+]
+
+[[package]]
 name = "xcm"
 version = "0.9.18"
 dependencies = [
@@ -12768,6 +12787,7 @@ dependencies = [
  "sp-io",
  "sp-runtime",
  "sp-std",
+ "xbi-executor",
  "xcm",
  "xcm-builder",
  "xcm-executor",

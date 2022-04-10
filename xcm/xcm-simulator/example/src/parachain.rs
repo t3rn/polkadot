@@ -78,6 +78,10 @@ impl frame_system::Config for Runtime {
 	type MaxConsumers = frame_support::traits::ConstU32<16>;
 }
 
+impl xbi_executor::Config for Runtime {
+	type Event = Event;
+}
+
 parameter_types! {
 	pub ExistentialDeposit: Balance = 1;
 	pub const MaxLocks: u32 = 50;
@@ -325,5 +329,6 @@ construct_runtime!(
 		Balances: pallet_balances::{Pallet, Call, Storage, Config<T>, Event<T>},
 		MsgQueue: mock_msg_queue::{Pallet, Storage, Event<T>},
 		PolkadotXcm: pallet_xcm::{Pallet, Call, Event<T>, Origin},
+		XBIExecutor: xbi_executor::{Pallet, Call, Event<T>},
 	}
 );

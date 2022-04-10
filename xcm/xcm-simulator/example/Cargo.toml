@@ -20,6 +20,7 @@ sp-io = { git = "https://github.com/paritytech/substrate", branch = "master" }
 xcm = { path = "../../" }
 xcm-simulator = { path = "../" }
 xcm-executor = { path = "../../xcm-executor" }
+xbi-executor = { path = "../../xbi-executor" }
 xcm-builder = { path = "../../xcm-builder" }
 pallet-xcm = { path = "../../pallet-xcm" }
 polkadot-core-primitives = { path = "../../../core-primitives" }

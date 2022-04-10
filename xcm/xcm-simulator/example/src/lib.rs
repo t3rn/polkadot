@@ -170,6 +170,36 @@ mod tests {
 	}
 
 	#[test]
+	fn xbi_format() {
+		MockNet::reset();
+
+		let xbi_format_call =
+			parachain::Call::XBIExecutor(
+				xbi_executor::Call::<parachain::Runtime>::execute_xbi {
+					xbi: Default::default()
+				});
+
+		ParaA::execute_with(|| {
+			assert_ok!(ParachainPalletXcm::send_xcm(
+				Here,
+				(Parent, Parachain(2)),
+				Xcm(vec![Transact {
+					origin_type: OriginKind::SovereignAccount,
+					require_weight_at_most: INITIAL_BALANCE as u64,
+					call: xbi_format_call.encode().into(),
+				}]),
+			));
+		});
+
+		// ParaB::execute_with(|| {
+		// 	use parachain::{Event, System};
+		// 	assert!(System::events()
+		// 		.iter()
+		// 		.any(|r| matches!(r.event, Event::System(frame_system::Event::Remarked { .. }))));
+		// });
+	}
+
+	#[test]
 	fn xcmp() {
 		MockNet::reset();
 
@@ -177,6 +207,7 @@ mod tests {
 			parachain::Call::System(frame_system::Call::<parachain::Runtime>::remark_with_event {
 				remark: vec![1, 2, 3],
 			});
+
 		ParaA::execute_with(|| {
 			assert_ok!(ParachainPalletXcm::send_xcm(
 				Here,
