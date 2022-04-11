@@ -1,64 +1,59 @@
-
 use codec::{Decode, Encode};
-use core::{fmt::Debug};
+use core::fmt::Debug;
 use scale_info::TypeInfo;
-
-
+use sp_runtime::AccountId32;
+use xcm::latest::{Junction, MultiLocation};
 
 pub type Bytes = Vec<u8>;
-pub type BalanceOf = u128;
-pub type AccountIdOf = [u8; 32];
+pub type AssetId = u64;
+// pub type Balance16B = MultiAsset;
+pub type Balance16B = u128;
+pub type AccountIdOf = MultiLocation;
+// pub type AccountId32 = AccountId32;
+// pub type AccountKey20 = AccountKey20;
 
-// #[derive(Clone, Eq, PartialEq, PartialOrd, Encode, Decode)]
-// #[derivative(Clone(bound = ""), Eq(bound = ""), PartialEq(bound = ""), Debug(bound = ""))]
-// #[codec(encode_bound())]
-// #[codec(decode_bound())]
-// #[scale_info(bounds(), skip_type_params(Call))]
 #[derive(Clone, Eq, PartialEq, Debug, Default, Encode, Decode, TypeInfo)]
 pub struct XBIFormat {
-	xbi_order: XBIOrder,
-	metadata: XBIMetadata,
+	pub instr: XBIInstr,
+	pub metadata: XBIMetadata,
 }
 #[derive(Clone, Eq, PartialEq, Debug, Encode, Decode, TypeInfo)]
-pub enum XBIOrder {
+pub enum XBIInstr {
 	CallNative {
 		payload: Bytes,
 	},
 	CallEvm {
-		caller: AccountIdOf,
-		dest: AccountIdOf,
-		value: BalanceOf,
+		caller: AccountId32,
+		dest: Junction, // Junction::AccountKey20
+		value: Balance16B,
 		input: Bytes,
-		gas_limit: BalanceOf,
-		max_fee_per_gas: Option<BalanceOf>,
-		max_priority_fee_per_gas: Option<BalanceOf>,
+		gas_limit: Balance16B,
+		max_fee_per_gas: Option<Balance16B>,
+		max_priority_fee_per_gas: Option<Balance16B>,
 		nonce: Option<u32>,
 		access_list: Option<Bytes>,
 	},
 	CallWasm {
-		caller: AccountIdOf,
-		dest: AccountIdOf,
-		value: BalanceOf,
+		caller: AccountId32,
+		dest: AccountId32,
+		value: Balance16B,
 		input: Bytes,
-		additional_params: Option<Vec<Bytes>>,
 	},
 	CallCustom {
-		caller: AccountIdOf,
-		dest: AccountIdOf,
-		value: BalanceOf,
+		caller: AccountId32,
+		dest: AccountId32,
+		value: Balance16B,
 		input: Bytes,
 		additional_params: Option<Vec<Bytes>>,
 	},
 	Transfer {
-		dest: AccountIdOf,
-		value: BalanceOf,
-		additional_params: Option<Vec<Bytes>>,
+		dest: AccountId32,
+		value: Balance16B,
 	},
 	TransferMulti {
-		dest: AccountIdOf,
-		currency_id: AccountIdOf,
-		value: BalanceOf,
-		additional_params: Option<Vec<Bytes>>,
+		currency_id: AssetId,
+		dest: AccountId32,
+		value: Balance16B,
 	},
 	Result {
 		success: bool,
@@ -67,9 +62,9 @@ pub enum XBIOrder {
 	},
 }
 
-impl Default for XBIOrder {
+impl Default for XBIInstr {
 	fn default() -> Self {
-		XBIOrder::CallNative { payload: vec![] }
+		XBIInstr::CallNative { payload: vec![] }
 	}
 }
 
@@ -83,9 +78,9 @@ pub struct ActionNotificationTimeouts {
 
 #[derive(Clone, Eq, PartialEq, Debug, Default, Encode, Decode, TypeInfo)]
 pub struct XBIMetadata {
-	sent: ActionNotificationTimeouts,
-	delivered: ActionNotificationTimeouts,
-	executed: ActionNotificationTimeouts,
+	pub sent: ActionNotificationTimeouts,
+	pub delivered: ActionNotificationTimeouts,
+	pub executed: ActionNotificationTimeouts,
 	// //   - `Sent (action timeout, notification timeout)`
 	// //   - `Delivered (action timeout, notification timeout)`
 	// //   - `Executed (action timeout, notification timeout)`
