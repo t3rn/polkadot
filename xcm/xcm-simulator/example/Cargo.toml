@@ -17,6 +17,15 @@ sp-core = { git = "https://github.com/paritytech/substrate", branch = "polkadot-
 sp-runtime = { git = "https://github.com/paritytech/substrate", branch = "polkadot-v0.9.17" }
 sp-io = { git = "https://github.com/paritytech/substrate", branch = "polkadot-v0.9.17" }
 
+sp-consensus-aura = { git = "https://github.com/paritytech/substrate", branch = "polkadot-v0.9.17" }
+pallet-timestamp = { git = "https://github.com/paritytech/substrate", branch = "polkadot-v0.9.17" }
+pallet-aura = { git = "https://github.com/paritytech/substrate", branch = "polkadot-v0.9.17" }
+
+pallet-evm = { git = "https://github.com/t3rn/frontier", branch = "polkadot-v0.9.17" }
+pallet-ethereum = { git = "https://github.com/t3rn/frontier", branch = "polkadot-v0.9.17" }
+
+xbi-executor = { path = "../../xbi-executor" }
+
 xcm = { path = "../../" }
 xcm-simulator = { path = "../" }
 xcm-executor = { path = "../../xcm-executor" }
