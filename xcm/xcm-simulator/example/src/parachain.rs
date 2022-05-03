@@ -398,6 +398,10 @@ frame_support::parameter_types! {
 	pub BoundDivision: U256 = U256::from(1024);
 }
 /// Frontier EVM+Ethereum Setup --- END
+impl xbi_executor::Config for Runtime {
+	type Event = Event;
+	type Evm = EVM;
+}
 
 construct_runtime!(
 	pub enum Runtime where
@@ -413,5 +417,6 @@ construct_runtime!(
 		Aura: pallet_aura::{Pallet, Config<T>},
 		Ethereum: pallet_ethereum::{Pallet, Call, Storage, Event, Config, Origin},
 		EVM: pallet_evm::{Pallet, Config, Call, Storage, Event<T>},
+		XBIExecutor: xbi_executor::{Pallet, Call, Event<T>},
 	}
 );

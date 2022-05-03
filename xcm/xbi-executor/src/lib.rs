@@ -4,6 +4,9 @@ use xcm::latest::Xcm;
 
 pub mod xbi_format;
 
+pub mod primitives;
+use primitives::evm::Evm;
+
 pub use pallet::*;
 
 // #[cfg(test)]
@@ -29,6 +32,7 @@ pub mod pallet {
 	pub trait Config: frame_system::Config {
 		/// Because this pallet emits events, it depends on the runtime's definition of an event.
 		type Event: From<Event<Self>> + IsType<<Self as frame_system::Config>::Event>;
+		type Evm: Evm<Self>;
 	}
 
 	#[pallet::pallet]
